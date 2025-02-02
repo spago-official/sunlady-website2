@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { GetStaticProps } from 'next';
 import Layout from '../../components/Layout';
 import { client, News } from '../../lib/microcms';
