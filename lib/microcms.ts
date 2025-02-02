@@ -20,7 +20,7 @@ export const client = createClient({
 });
 
 // パートナー情報の型定義
-export type Partner = {
+export interface Partner {
   id: string;
   name: string;
   subtitle?: string;
@@ -30,10 +30,10 @@ export type Partner = {
     height: number;
   };
   link?: string;
-};
+}
 
 // ニュース情報の型定義
-export type News = {
+export interface News {
   id: string;
   title: string;
   content: string;
@@ -44,7 +44,7 @@ export type News = {
   };
   publishedAt: string;
   updatedAt: string;
-};
+}
 
 // レスポンスの型定義
 export type MicroCMSResponse<T> = {
