@@ -85,9 +85,10 @@ export const getCarouselNews = async () => {
   return response;
 };
 
-// 例: 名前空間を使用しない形に変更
+// 名前空間を使用せず、空のインターフェースを適切に定義
 export interface MyInterface {
-  // プロパティの定義
+  // プロパティの定義を追加するか、必要に応じて削除
+  // 例: name?: string;  // オプショナルなプロパティ
 }
 
 export const myFunction = () => {
