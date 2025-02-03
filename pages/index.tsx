@@ -5,6 +5,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Link from 'next/link';
+import Image from 'next/image';
 
 type News = {
   id: string;
@@ -87,9 +88,11 @@ export default function Home({ news = [] }: Props) {
                             height: '250px',
                             position: 'relative'
                           }}>
-                            <img
+                            <Image
                               src={item.image.url}
                               alt={item.title}
+                              width={item.image.width}
+                              height={item.image.height}
                               style={{
                                 width: '100%',
                                 height: '100%',

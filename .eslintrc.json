@@ -1,6 +1,7 @@
 {
   "extends": "next/core-web-api",
   "rules": {
-    "@typescript-eslint/no-namespace": "off"
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-empty-interface": "off"
   }
 } 

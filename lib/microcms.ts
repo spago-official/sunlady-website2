@@ -85,12 +85,12 @@ export const getCarouselNews = async () => {
   return response;
 };
 
-// 名前空間を使用せず、空のインターフェースを適切に定義
+// 名前空間を使用せず、適切なインターフェースを定義
 export interface MyInterface {
-  // プロパティの定義を追加するか、必要に応じて削除
-  // 例: name?: string;  // オプショナルなプロパティ
+  // 必要なプロパティを定義
+  name?: string; // 例: オプショナルなプロパティ
 }
 
-export const myFunction = () => {
-  // 関数の実装
+export const myFunction = (): MyInterface => {
+  return { name: "example" }; // 例: 戻り値を適切に設定
 }; 
