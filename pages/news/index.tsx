@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Layout from '../../components/Layout';
 import { client, News } from '../../lib/microcms';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type Props = {
   news: News[];
@@ -54,7 +55,7 @@ export default function NewsPage({ news = [] }: Props) {
                       width: '200px',
                       height: '150px'
                     }}>
-                      <img
+                      <Image
                         src={item.image.url}
                         alt={item.title}
                         style={{

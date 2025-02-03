@@ -1,6 +1,7 @@
 import { GetStaticProps } from 'next';
 import Layout from '../../components/Layout';
 import { client, Partner } from '../../lib/microcms';
+import Image from 'next/image';
 
 type Props = {
   partners: Partner[];
@@ -58,7 +59,7 @@ export default function PartnerPage({ partners = [] }: Props) {
                     marginBottom: '20px',
                     width: '100%'
                   }}>
-                    <img 
+                    <Image 
                       src={partner.image.url} 
                       alt={partner.name}
                       style={{ 
