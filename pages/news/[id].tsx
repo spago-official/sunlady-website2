@@ -1,7 +1,22 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Layout from '../../components/Layout';
-import { client, News } from '../../lib/microcms';
+import { fetchAllIds, fetchDataFromAPI } from '../../lib/api'; // 適切なパスに変更
 import Link from 'next/link';
+import Image from 'next/image';
+import { News as MicroCMSNews } from '../../lib/microcms'; // 名前を変更してインポート
+import { ParsedUrlQuery } from 'querystring';
+
+type News = {
+  id: string;
+  title: string;
+  content: string;
+  publishedAt: string;
+  image: {
+    url: string;
+    height: number;
+    width: number;
+  };
+};
 
 type Props = {
   news: News;
@@ -38,13 +53,14 @@ export default function NewsDetail({ news }: Props) {
               borderRadius: '8px',
               overflow: 'hidden'
             }}>
-              <img
+              <Image
                 src={news.image.url}
                 alt={news.title}
+                width={news.image.width}
+                height={news.image.height}
                 style={{
                   width: '100%',
                   height: 'auto',
-                  maxHeight: '400px',
                   objectFit: 'cover'
                 }}
               />
@@ -123,50 +139,31 @@ export default function NewsDetail({ news }: Props) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  try {
-    const data = await client.get({
-      endpoint: 'news',
-      queries: { limit: 100 }
-    });
-
-    const paths = data.contents.map((content: News) => ({
-      params: {
-        id: content.id
-      }
-    }));
-
-    return {
-      paths,
-      fallback: true
-    };
-  } catch (error) {
-    console.error('Error in getStaticPaths:', error);
-    return {
-      paths: [],
-      fallback: true
-    };
-  }
+  const paths = await fetchAllIds(); // APIから全IDを取得
+  console.log('Static Paths:', paths); // 取得したパスを確認
+  return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<Props, { id: string }> = async ({ params }) => {
-  if (!params?.id) {
-    return { notFound: true };
-  }
+interface Params extends ParsedUrlQuery {
+  id: string; // idの型を指定
+}
 
-  try {
-    const news = await client.get({
-      endpoint: 'news',
-      contentId: params.id
-    });
+export const getStaticProps: GetStaticProps = async (context) => {
+  const { id } = context.params as Params; // 型アサーションを使用
 
+  console.log(`Fetching data for ID: ${id}`); // デバッグ用: IDを確認
+  const data = await fetchDataFromAPI(id); // APIからデータを取得
+
+  if (!data || !data.image) {
+    console.log('Data not found or image missing'); // デバッグ用: データが見つからない場合
     return {
-      props: {
-        news
-      },
-      revalidate: 60
+      notFound: true, // データがない場合は404ページを表示
     };
-  } catch (error) {
-    console.error('Error in getStaticProps:', error);
-    return { notFound: true };
   }
+
+  return {
+    props: {
+      news: data, // newsオブジェクト全体を渡す
+    },
+  };
 }; 
