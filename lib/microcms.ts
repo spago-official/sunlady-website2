@@ -83,4 +83,13 @@ export const getCarouselNews = async () => {
     },
   });
   return response;
+};
+
+// 例: 名前空間を使用しない形に変更
+export interface MyInterface {
+  // プロパティの定義
+}
+
+export const myFunction = () => {
+  // 関数の実装
 }; 
